@@ -1,0 +1,69 @@
+{
+    "Routes": [
+        {
+            "UpstreamPathTemplate": "/account/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "identity",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/account/{everything}"
+
+        },
+        {
+            "UpstreamPathTemplate": "/products/{everything}",
+            "UpstreamHttpMethod": [ "GET" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "product",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/products/{everything}"
+
+        },
+        {
+            "UpstreamPathTemplate": "/categories",
+            "UpstreamHttpMethod": [ "GET" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "product",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/categories"
+
+        },
+        {
+            "UpstreamPathTemplate": "/categories/{everything}",
+            "UpstreamHttpMethod": [ "GET" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "product",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/categories/{everything}"
+
+        },
+        {
+            "UpstreamPathTemplate": "/organizations/{everything}",
+            "UpstreamHttpMethod": [ "GET" ],
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "organization",
+                    "Port": 80
+                }
+            ],
+            "DownstreamPathTemplate": "/api/organizations/{everything}"
+
+        }
+    ]
+}

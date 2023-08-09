@@ -1,0 +1,132 @@
+﻿version: '3.7'
+
+services:
+  identity:
+    image: identity
+    container_name: identity
+    depends_on:
+        - identity_db
+    build:
+        context: .
+        dockerfile: Dockerfile.Identity
+    ports:
+        - '7070:80'
+
+  chat:
+    image: chat
+    container_name: chat
+    depends_on:
+        - chat_db
+    build:
+        context: .
+        dockerfile: Dockerfile.Chat
+    ports:
+        - '7071:80'
+
+  organization:
+    image: organization
+    container_name: organization
+    build:
+        context: .
+        dockerfile: Dockerfile.Organization
+    ports:
+        - '7073:80'
+    volumes:
+      - organization_data:/var/lib/organization/data/
+    
+  product:
+    image: product
+    container_name: product
+    build:
+        context: .
+        dockerfile: Dockerfile.Products
+    ports:
+        - '7074:80'
+    volumes:
+      - product_data:/var/lib/product/data/
+ 
+  marketplace:
+    image: marketplace
+    container_name: marketplace
+    build:
+        context: .
+        dockerfile: Dockerfile.Marketplace
+    ports:
+        - '7075:80'
+
+  marketplace-organization:
+    image: marketplace-organization
+    container_name: marketplace-organization
+    build:
+        context: .
+        dockerfile: Dockerfile.Marketplace.Organization
+    ports:
+        - '7076:80'
+
+  identity_db:
+    image: postgres:latest
+    container_name: identity_db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5433:5432"
+    restart: always
+    volumes:
+      - identity_db_data:/var/lib/postgresql/data/
+    
+  chat_db:
+    image: postgres:latest
+    container_name: chat_db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    volumes:
+      - chat_db_data:/var/lib/postgresql/data/
+        
+  organization_db:
+    image: postgres:latest
+    container_name: organization_db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5434:5432"
+    restart: always
+    volumes:
+      - organization_db_data:/var/lib/postgresql/data/
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    ports:
+      - 27017:27017 
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+  cart:
+    image: cart
+    container_name: cart
+    build:
+        context: .
+        dockerfile: Dockerfile.Cart
+    ports:
+        - '8090:80'
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - cache:/data
+
+
+volumes:
+  chat_db_data:  
+  identity_db_data:
+  organization_db_data:
+  organization_data:
+  product_data:
+  cache:
+    driver: local
